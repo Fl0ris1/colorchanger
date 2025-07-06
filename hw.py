@@ -1,30 +1,53 @@
 from tkinter import *
+from tkinter import messagebox
+def add():    
+    color=input1.get()
+    colors.append(color)
+    listbox.insert(END,color)
+    input1.delete(0,END)
 
-def converter():
-    KG=input1.get()
-    if KG.replace(".","",1).isdigit():
-        Pounds=float(KG)*2.20462
-        Grams=float(KG)*1000
-        output.config(text=f"The weight in grams is: {Grams} grams\nThe Weight in pounds is: {Pounds} pounds")
+def apply():
+    try:
+        index=listbox.curselection()[0]
+        selected_color=colors[index]
+        root.config(bg=selected_color)
+        frame.config(bg=selected_color)
+    except IndexError:
+        messagebox.showerror("ERROR","CHOOSE A COLOR TO APPLY")
+        
+def remove():
+    index=listbox.curselection()
+    if index:
+        listbox.delete(index)
+
 
 root=Tk()
-root.geometry("750x500")
-root.title("weight converter")
-root.config(background="#36413E")
-lbl_heading=Label(root,text="KG --> Grams And Pounds", font=("consolas",15,"bold"),bg="#36413E",fg="#537A5A")
-lbl_heading.place(x=0,y=0)
-input1=Entry(root)
-input1.place(x=475,y=106)
-lbl_input=Label(root,text="Input the weight you want to convert:", font=("consolas",15,"bold"),bg="#36413E",fg="#537A5A")
-lbl_input.place(x=50,y=100)
 
-output=Label(root,font=("consolas",20,"bold"),bg="#36413E",fg="#537A5A")
-output.place(x=75,y=300)
-             
-convertBut=Button(root,text="Convert",font=("consolas",18,"bold"),bg="#36413E",fg="#537A5A",command=converter)
-convertBut.place(x=315,y=200)
+root.title("Colors")
+root.config(background="#4FDD4A")
 
+input1=Entry(root,font=("consolas",13,"bold"),fg="#000000",width=30)
+input1.pack(pady=10)
+colors=["black","#FFFFFF","gray","#0000FF","#00FF00"]
 
+listbox=Listbox(root,width=30,font=("consolas",16,"bold"))
+
+for color in colors:
+    listbox.insert(END,color)
+
+listbox.pack(padx=10,pady=10)
+
+frame=Frame(root,bg="#4FDD4A")
+frame.pack(padx=10,pady=10)
+
+add_btn=Button(frame,text="ADD",font=("consolas",15,"bold"),fg="#000000",bg="#4FDD4A",border=3,width=7,command=add)
+add_btn.pack(side=LEFT,padx=5)
+
+apply_btn=Button(frame,text="APPLY",font=("consolas",15,"bold"),fg="#000000",bg="#4FDD4A",border=3,width=7,command=apply)
+apply_btn.pack(side=LEFT,padx=5)
+
+remove_btn=Button(frame,text="REMOVE",font=("consolas",15,"bold"),fg="#000000",bg="#4FDD4A",border=3,width=7,command=remove)
+remove_btn.pack(side=LEFT,padx=5)
 
 
 root.mainloop()
